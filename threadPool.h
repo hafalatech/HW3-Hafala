@@ -1,13 +1,19 @@
 #ifndef __THREAD_POOL__
 #define __THREAD_POOL__
 #include <pthread.h>
+#include "osqueue.h"
+
+//Task info
+typedef struct task_node
+{   
+	void* param;
+	void* (*routine) (void*);
+}TaskNode;
 
 typedef struct thread_pool
 {
- //The field x is here because a struct without fields
- //doesn't compile. Remove it once you add fields of your own
- int x;
- //TODO - FILL THIS WITH YOUR FIELDS
+	OSQueue* tasks_queue;	// Queue containing all the tasks in the pool   
+	pthread_t* threads;            // Array containing all threads in the pool
 }ThreadPool;
 
 ThreadPool* tpCreate(int numOfThreads);
