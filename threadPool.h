@@ -13,12 +13,13 @@ typedef struct task_node
 
 typedef struct thread_pool
 {
-	OSQueue* tasks_queue;	// Queue containing all the tasks in the pool   
-	pthread_t* threads;            // Array containing all threads in the pool
+	OSQueue* tasks_queue;
+	pthread_t* threads;
 	int has_destroyed;
 	int shouldWaitForTasks;
 	pthread_mutex_t* mutex;
-	pthread_cond_t* cond;  
+	pthread_cond_t* cond;
+	pthread_mutex_t* mutexForCond;
 }ThreadPool;
 
 
