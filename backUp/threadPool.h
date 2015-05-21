@@ -19,15 +19,11 @@ typedef struct thread_pool
 	pthread_t* threads;
 	int has_destroyed;
 	int shouldWaitForTasks;
-	pthread_mutex_t mutexForExecuter;
-	pthread_cond_t executerCond;
-
-	pthread_cond_t destroyCond;
-	pthread_mutex_t destroyCondMutex;
-
+	pthread_mutex_t mutex;
+	pthread_cond_t cond;
+	pthread_mutex_t mutexForCond;
 	int numOfThreads;
 	int runningTasks;
-	int threadsAlive;
 }ThreadPool;
 
 

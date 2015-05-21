@@ -37,17 +37,12 @@ void doLongTask(void* a)
    {
       ;
    }
-   if (a==NULL)
-   {
-      return;
-   }
    AwesomeContainer* con = (AwesomeContainer*)(a);
    con->awesomeNum = 1; // for success
 }
 
 void doMediumTask(void* a)
 {
-   printf("doing medium task\n");
    int j;
    for(j=0; j<1000; j++)
    {
@@ -56,10 +51,6 @@ void doMediumTask(void* a)
       {
          ;
       }
-   }
-   if (a==NULL)
-   {
-      return;
    }
    AwesomeContainer* con = (AwesomeContainer*)(a);
    con->awesomeNum = 1; // for success
@@ -122,8 +113,8 @@ void test_thread_pool_sanity()
 {
    int i;
    
-   ThreadPool* tp = tpCreate(3);
-   for(i=0; i<3; ++i)
+   ThreadPool* tp = tpCreate(5);
+   for(i=0; i<5; ++i)
    {
       tpInsertTask(tp,hello,NULL);
    }
@@ -162,15 +153,16 @@ void test_single_thread_many_tasks()
 
 void test_destroy_should_not_wait_for_tasks()
 {
-   ThreadPool* tp = tpCreate(1);
+   ThreadPool* tp = tpCreate(10);
+
 
    AwesomeContainer con;
    con.awesomeNum = 0;
    con.awesomeString = "DontCare"; // we use only the awesomeNum
    tpInsertTask(tp,doMediumTask,&con);
- 
-   //doLongTask(NULL);
-   tpDestroy(tp,1);
+
+   tpDestroy(tp,0);
+
    assert(con.awesomeNum==1);
    printf("[OK]\n");
    printf(" \n");
@@ -180,6 +172,7 @@ void test_destroy_should_not_wait_for_tasks()
 void test_destroy_should_wait_for_tasks()
 {
    ThreadPool* tp = tpCreate(10);
+
 
    AwesomeContainer con;
    con.awesomeNum = 0;
@@ -194,20 +187,6 @@ void test_destroy_should_wait_for_tasks()
    printf(" \n");
 }
 
-// Once this operation is still taking place no concurrent tpDestroy() are allowed on the same threadPool
-void test_destroy_twice()
-{
-   printf("[OK]\n");
-   printf(" \n");
-} 
-
-
-void agressiveTest()
-{
-   //repeat the same test many times to check for rare cases
-   printf("[OK]\n");
-   printf(" \n");
-}
 
 int main()
 {
@@ -215,15 +194,15 @@ int main()
    printf("\n");
    
 
-   printf("test_thread_pool_sanity... \n");
-   test_thread_pool_sanity();
+   // printf("test_thread_pool_sanity... \n");
+   // test_thread_pool_sanity();
 
 
    // printf("test_single_thread_many_tasks... \n");
    // test_single_thread_many_tasks();
 
-   // printf("test_destroy_should_not_wait_for_tasks... \n");
-   // test_destroy_should_not_wait_for_tasks();
+   printf("test_destroy_should_not_wait_for_tasks... \n");
+   test_destroy_should_not_wait_for_tasks();
 
    // printf("test_destroy_should_wait_for_tasks... \n");
    // test_destroy_should_wait_for_tasks();
