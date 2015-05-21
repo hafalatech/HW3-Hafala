@@ -20,7 +20,9 @@ typedef struct thread_pool
 	int has_destroyed;
 	int shouldWaitForTasks;
 	pthread_mutex_t mutexForExecuter;
+	
 	pthread_cond_t executerCond;
+	pthread_mutex_t executerCondMutex;
 
 	pthread_cond_t destroyCond;
 	pthread_mutex_t destroyCondMutex;
