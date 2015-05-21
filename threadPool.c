@@ -2,6 +2,7 @@
 
 
 void* executer(void* arg) {
+	printf("[THREAD] - IM ALIVE\n");
 	ThreadPool* pool = (ThreadPool*)(arg);
 	pthread_mutex_lock(&(pool->mutexForExecuter));
 	int myIndex = pool->threadsAlive;

@@ -168,9 +168,12 @@ void test_destroy_should_not_wait_for_tasks()
    con.awesomeNum = 0;
    con.awesomeString = "DontCare"; // we use only the awesomeNum
    tpInsertTask(tp,doMediumTask,&con);
- 
-   //doLongTask(NULL);
-   tpDestroy(tp,1);
+   tpInsertTask(tp,doMediumTask,&con);
+   tpInsertTask(tp,doMediumTask,&con);
+
+   
+
+   tpDestroy(tp,0);
    assert(con.awesomeNum==1);
    printf("[OK]\n");
    printf(" \n");
@@ -219,8 +222,8 @@ int main()
    test_thread_pool_sanity();
 
 
-   // printf("test_single_thread_many_tasks... \n");
-   // test_single_thread_many_tasks();
+   printf("test_single_thread_many_tasks... \n");
+   test_single_thread_many_tasks();
 
    // printf("test_destroy_should_not_wait_for_tasks... \n");
    // test_destroy_should_not_wait_for_tasks();
