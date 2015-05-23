@@ -264,7 +264,7 @@ void test_thread_pool_sanity()
    int i;
    
    ThreadPool* tp = tpCreate(3);
-   for(i=0; i<3; ++i)
+   for(i=0; i<5; ++i)
    {
       tpInsertTask(tp,hello,NULL);
    }
@@ -376,13 +376,6 @@ void test_destroy_should_not_wait_for_tasks()
       tpInsertTask(tp,doMediumTask,NULL);
       tpInsertTask(tp,doMediumTask,NULL);
       tpInsertTask(tp,doMediumTask,NULL);
-
-   // AwesomeContainer con;
-   // con.awesomeNum = 0;
-   // con.awesomeString = "DontCare"; // we use only the awesomeNum
-   // tpInsertTask(tp,doMediumTaskWithPrint,&con);
-   // tpInsertTask(tp,doMediumTaskWithPrint,&con);
-   // tpInsertTask(tp,doMediumTaskWithPrint,&con);
 
    tpDestroy(tp,0);
    printOK();

@@ -55,6 +55,7 @@ void* executer(void* arg) {
 
 				//printf("[THREAD %d] - FINISHED TASK\n",myIndex);
 		pthread_mutex_lock(&(pool->mutexForExecuter));
+					free(node);
 					//printf("[THREAD %d] - DEC runningTasks--\n",myIndex);
 					//pool->runningTasks--;
 		pthread_mutex_unlock(&(pool->mutexForExecuter));
