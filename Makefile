@@ -6,7 +6,7 @@ all:	osqueue.c threadPool.c threadPool.h
 
 	gcc -L. test.c -lthreadPool -lpthread  -o a.out
 
-	valgrind --leak-check=full --show-reachable=yes -v ./a.out
+	./a.out
 clean:
 
 	rm threadPool.o osqueue.o libthreadPool.a
