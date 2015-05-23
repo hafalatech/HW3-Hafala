@@ -23,7 +23,6 @@ void printStart()
    printf("%s\n", start);
 }
 
-
 void printEnd()
 {
    char* end = " _______ __    _ ______  \n|       |  |  | |      | \n|    ___|   |_| |  _    |\n|   |___|       | | |   |\n|    ___|  _    | |_|   |\n|   |___| | |   |       |\n|_______|_|  |__|______| ";
@@ -40,28 +39,6 @@ void simpleTask(void* a)
    {
       j=i;
    }
-}
-
-void doMediumTask()
-{
-   int j;
-   for(j=0; j<1000; j++)
-   {
-      short i;
-      for (i=1; i != 0; i++)
-      {
-         ;
-      }
-   }
-}
-
-void doLongTask(void* a)
-{
-   long i;
-   for (i=1; i != 0; i++)
-   {
-      ;
-   }
    if (a==NULL)
    {
       return;
@@ -70,149 +47,6 @@ void doLongTask(void* a)
    con->awesomeNum = 1; // for success
 }
 
-void halt()
-{
-   int i;
-   for (i = 0; i < 10; i++) doMediumTask();
-}
-
-
-void printingProgressBar()
-{
-   printf("\n");
-   char* line1 = "||||| 20%% *___*";
-   char* line2 = "|||||||||| 40%% *___*";
-   char* line3 = "||||||||||||||| 60%% *___*";
-   char* line4 = "|||||||||||||||||||| 80%% *___*";
-   char* line5 = "||||||||||||||||||||||||| 100%% *___*";
-
-   char* text[5] = {line1,line2,line3,line4,line5};
-   //print text
-   int i;
-   for (i = 0; i < 5; ++i)
-   {
-      doMediumTask();
-      doMediumTask();
-      doMediumTask();
-      doMediumTask();
-      printf("\033[1A");
-      printf("\r");
-      printf("%s\n",text[i]);
-   } 
-      doMediumTask();
-      doMediumTask();
-      doMediumTask();
-      doMediumTask();
-}
-
-void doLongTaskWithPrint(void* a)
-{
-   printf("Doing a long task.. give me a break\n");
-   long i;
-   doLongTask(NULL);
-   printingProgressBar();
-   if (a==NULL)
-   {
-      printf("Finished long task.. carry on\n");
-      printf("\n");
-      return;
-   }
-   AwesomeContainer* con = (AwesomeContainer*)(a);
-   con->awesomeNum = 1; // for success
-   printf("Finished long task.. carry on\n");
-   printf("\n");
-}
-
-void doMediumTaskWithPrint(void* a)
-{
-   printf("Doing a medium task\n");
-   doMediumTask();
-   if (a==NULL)
-   {
-      return;
-   }
-   AwesomeContainer* con = (AwesomeContainer*)(a);
-   con->awesomeNum = 1; // for success
-}
-
-void awesomePrint(void* a)
-{
-   printf("\n");
-   printf("\n");
-   AwesomeContainer* con = (AwesomeContainer*)(a);
-   int i;
-   char* stars = "****************************";
-   for(i=0 ; i<con->awesomeNum ; ++i)
-   {
-      printf("%s\n",stars);
-      doMediumTask();
-   }
-   printf("\n");
-   printf("%s\n",con->awesomeString);
-   printf("\n");
-   for(i=0 ; i<con->awesomeNum ; ++i)
-   {
-      printf("%s\n",stars);
-      doMediumTask();
-   }
-   printf("\n");
-   printf("\n");
-}
-
-int fibonaciAux(int n)
-{
-   if (n < 2)
-   {
-      return n;
-   }
-   return fibonaciAux(n-1) + fibonaciAux(n-2);
-}
-
-void fibonaci(void* n)
-{
-   int num = *((int*)(n));
-   printf("Calculating Fibonaci of %d\n",num);
-   int res = fibonaciAux(num);
-   
-
-   int i;
-   for (i = 0; i < 20; i++) doMediumTask();
-   printf("Fibonaci of %d is %d ... apparently\n\n",num,res);
-}
-
-void printingCannabisText(void* a)
-{
-   int i;
-   char* line0 = "A bit of reading while your at it...";
-   char* cannabisDraw[17] = {"                 0","                00","               0000","   0          000000           0","   00         000000           0","    0000      000000          00","    000000    0000000     00000"," 0     0000000 000000 00000000   0","00      000000 00000 0000000    00","0000     000000 000 000000    0000"," 000000000  0000 0 000 0 000000000","    000000000  0 0 0 00000000000","        000000000000000000000","              000 0 0000","            00000 0  00000","          00       0       00","                    0"};
-   //char* cannabisDraw = "                 0\n                00\n               0000\n   0          000000           0\n   00         000000           0\n    0000      000000          00\n    000000    0000000     00000\n 0     0000000 000000 00000000   0\n00      000000 00000 0000000    00\n0000     000000 000 000000    0000\n 000000000  0000 0 000 0 000000000\n    000000000  0 0 0 00000000000\n        000000000000000000000\n              000 0 0000\n            00000 0  00000\n          00       0       00\n                    0\n";
-   char* line1 = "Cannabis is an annual, dioecious, flowering herb.";
-   char* line2 = "The leaves are palmately compound or digitate, with serrate leaflets.";
-   char* line3 = "The first pair of leaves usually have a single leaflet, the number gradually increasing up to a";
-   char* line4 = "maximum of about thirteen leaflets per leaf (usually seven or nine), depending on variety and growing conditions.";
-   char* text[5] = {line1,line2,line3,line4};
-
-   printf("\n\n%s\n\n\n",line0);
-   for (i = 0; i < 20; i++) doMediumTask();
-       
-   //print leaf  
-   for (i = 0; i < 17; i++){
-      printf("%s\n", cannabisDraw[i]);
-      doMediumTask();
-   }
-
-   //print text
-   for (i = 0; i < 4; ++i)
-   {
-      doMediumTask();
-      doMediumTask();
-      doMediumTask();
-      doMediumTask();
-      printf("%s\n",text[i]);
-   } 
-   printf("\n");
-   printf("\n");
-}
 
 void badfunction(void *a)
 {
@@ -252,7 +86,6 @@ void printOK()
 
 void test_create_and_destroy()
 {
-   halt(); //ignore
    ThreadPool* tp1 = tpCreate(3);
    tpDestroy(tp1,1);
 
@@ -265,7 +98,6 @@ void test_create_and_destroy()
 
 void test_thread_pool_sanity()
 {
-   halt(); //ignore
    int i;
    
    ThreadPool* tp = tpCreate(3);
@@ -281,28 +113,29 @@ void test_thread_pool_sanity()
 
 void test_single_thread_many_tasks()
 {
-   halt(); //ignore
    ThreadPool* tp = tpCreate(1);
 
    tpInsertTask(tp,simpleTask,NULL);
    tpInsertTask(tp,simpleTask,NULL);
-   AwesomeContainer con;
-   con.awesomeNum = 3;
-   con.awesomeString = "betty bought a bit of butter but the butter betty bought was bitter";
-   tpInsertTask(tp,simpleTask,&con);
    tpInsertTask(tp,simpleTask,NULL);
    tpInsertTask(tp,simpleTask,NULL);
-   int num1 = 10;
-   tpInsertTask(tp,simpleTask,&num1);
-   int num2 = 20;
-   tpInsertTask(tp,simpleTask,&num2);
-   int a=0;
-   AwesomeContainer con2;
-   con2.awesomeNum = 3;
-   con2.awesomeString = "Whats your name? my name is Arnio";
-   tpInsertTask(tp,simpleTask,&con2);
    tpInsertTask(tp,simpleTask,NULL);
-   tpInsertTask(tp,simpleTask,&a);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
+   tpInsertTask(tp,simpleTask,NULL);
    
    tpDestroy(tp,1);
    printOK();
@@ -311,24 +144,21 @@ void test_single_thread_many_tasks()
 
 void test_many_threads_single_task()
 {
-   halt(); //ignore
    ThreadPool* tp = tpCreate(50);
-   tpInsertTask(tp,simpleTask,NULL);
-   // AwesomeContainer con;
-   // con.awesomeNum = 0;
-   // con.awesomeString = NULL; // we use only the awesomeNum
-   // tpInsertTask(tp,doLongTask,&con);
+   AwesomeContainer con;
+   con.awesomeNum = 0;
+   con.awesomeString = NULL; // we use only the awesomeNum
+   tpInsertTask(tp,simpleTask,&con);
 
    tpDestroy(tp,1);
 
-   //assert(con.awesomeNum==1);
+   assert(con.awesomeNum==1);
    printOK();
    printf(" \n");
 }
 
 void test_destroy_should_wait_for_tasks_1()
 {
-   halt(); //ignore
    ThreadPool* tp = tpCreate(10);
 
    AwesomeContainer con;
@@ -338,14 +168,13 @@ void test_destroy_should_wait_for_tasks_1()
 
    tpDestroy(tp,1);
 
-   //assert(con.awesomeNum==1);
+   assert(con.awesomeNum==1);
    printOK();
    printf(" \n");
 }
 
 void test_destroy_should_wait_for_tasks_2()
 {
-   halt(); //ignore
    ThreadPool* tp = tpCreate(5);
 
    AwesomeContainer con;
@@ -367,16 +196,27 @@ void test_destroy_should_wait_for_tasks_2()
 
    tpDestroy(tp,1);
 
-   //assert(con.awesomeNum==1);
+   assert(con.awesomeNum==1);
    printOK();
    printf(" \n");
 }
 
 void test_destroy_should_not_wait_for_tasks()
 {
-   halt(); //ignore
    ThreadPool* tp = tpCreate(4);
 
+      tpInsertTask(tp,simpleTask,NULL);
+      tpInsertTask(tp,simpleTask,NULL);
+      tpInsertTask(tp,simpleTask,NULL);
+      tpInsertTask(tp,simpleTask,NULL);
+      tpInsertTask(tp,simpleTask,NULL);
+      tpInsertTask(tp,simpleTask,NULL);
+      tpInsertTask(tp,simpleTask,NULL);
+      tpInsertTask(tp,simpleTask,NULL);
+      tpInsertTask(tp,simpleTask,NULL);
+      tpInsertTask(tp,simpleTask,NULL);
+      tpInsertTask(tp,simpleTask,NULL);
+      tpInsertTask(tp,simpleTask,NULL);
       tpInsertTask(tp,simpleTask,NULL);
       tpInsertTask(tp,simpleTask,NULL);
       tpInsertTask(tp,simpleTask,NULL);
@@ -387,20 +227,6 @@ void test_destroy_should_not_wait_for_tasks()
    printf(" \n");
 }
 
-// Once this operation is still taking place no concurrent tpDestroy() are allowed on the same threadPool (PDF)
-void test_destroy_twice()
-{
-   halt(); //ignore
-   ThreadPool* tp = tpCreate(5);
-   tpInsertTask(tp,simpleTask,NULL);
-   tpInsertTask(tp,simpleTask,NULL);
-
-   tpDestroy(tp,1);
-   tpDestroy(tp,1);
-
-   printOK();
-   printf(" \n");
-} 
 
 void aux_test_for_agressive(int num)
 {
@@ -434,10 +260,9 @@ void aux_test_for_agressive(int num)
 }
 void test_agressive()
 {
-   //halt(); //ignore
    //repeat the same test many times to check for rare cases
    int i;
-   for (i = 1; i <= 15; ++i)
+   for (i = 1; i <= 20; ++i)
    {
       aux_test_for_agressive(i);
    }
@@ -445,35 +270,6 @@ void test_agressive()
    printf(" \n");
 }
 
-void test_insert_task_after_destroy_1()
-{
-   halt(); //ignore
-   ThreadPool* tp = tpCreate(5);
-   tpInsertTask(tp,simpleTask,NULL);
-   tpInsertTask(tp,simpleTask,NULL);
-
-   tpDestroy(tp,1);
-
-   tpInsertTask(tp,badfunction,NULL);
-
-   printOK();
-   printf(" \n");
-}
-
-void test_insert_task_after_destroy_2()
-{
-   halt(); //ignore
-   ThreadPool* tp = tpCreate(5);
-   tpInsertTask(tp,simpleTask,NULL);
-   tpInsertTask(tp,simpleTask,NULL);
-
-   tpDestroy(tp,0);
-
-   tpInsertTask(tp,badfunction,NULL);
-
-   printOK();
-   printf(" \n");
-}
 
 int main()
 {
@@ -511,18 +307,6 @@ int main()
 
    printf("test_destroy_should_not_wait_for_tasks...\n");
    test_destroy_should_not_wait_for_tasks();
-
-
-   // printf("test_destroy_twice...\n");
-   // test_destroy_twice();
-
-
-   // printf("test_insert_task_after_destroy #1...\n");
-   // test_insert_task_after_destroy_1();
-
-
-   // printf("test_insert_task_after_destroy #2...\n");
-   // test_insert_task_after_destroy_2();
 
 
    printEnd();
