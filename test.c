@@ -71,7 +71,6 @@ void halt()
    for (i = 0; i < 10; i++) doMediumTask();
 }
 
-
 void printingProgressBar()
 {
    printf("\n");
@@ -169,7 +168,6 @@ void fibonaci(void* n)
    printf("Calculating Fibonaci of %d\n",num);
    int res = fibonaciAux(num);
    
-
    int i;
    for (i = 0; i < 20; i++) doMediumTask();
    printf("Fibonaci of %d is %d ... apparently\n\n",num,res);
@@ -180,7 +178,6 @@ void printingCannabisText(void* a)
    int i;
    char* line0 = "A bit of reading while your at it...";
    char* cannabisDraw[17] = {"                 0","                00","               0000","   0          000000           0","   00         000000           0","    0000      000000          00","    000000    0000000     00000"," 0     0000000 000000 00000000   0","00      000000 00000 0000000    00","0000     000000 000 000000    0000"," 000000000  0000 0 000 0 000000000","    000000000  0 0 0 00000000000","        000000000000000000000","              000 0 0000","            00000 0  00000","          00       0       00","                    0"};
-   //char* cannabisDraw = "                 0\n                00\n               0000\n   0          000000           0\n   00         000000           0\n    0000      000000          00\n    000000    0000000     00000\n 0     0000000 000000 00000000   0\n00      000000 00000 0000000    00\n0000     000000 000 000000    0000\n 000000000  0000 0 000 0 000000000\n    000000000  0 0 0 00000000000\n        000000000000000000000\n              000 0 0000\n            00000 0  00000\n          00       0       00\n                    0\n";
    char* line1 = "Cannabis is an annual, dioecious, flowering herb.";
    char* line2 = "The leaves are palmately compound or digitate, with serrate leaflets.";
    char* line3 = "The first pair of leaves usually have a single leaflet, the number gradually increasing up to a";
@@ -237,7 +234,6 @@ void printOK()
    } 
    printf("\n");
 }
-
 
 
 /******************************************************************************/
@@ -309,14 +305,9 @@ void test_many_threads_single_task()
    halt(); //ignore
    ThreadPool* tp = tpCreate(50);
    tpInsertTask(tp,doMediumTask,NULL);
-   // AwesomeContainer con;
-   // con.awesomeNum = 0;
-   // con.awesomeString = NULL; // we use only the awesomeNum
-   // tpInsertTask(tp,doLongTask,&con);
 
    tpDestroy(tp,1);
 
-   //assert(con.awesomeNum==1);
    printOK();
    printf(" \n");
 }
@@ -427,6 +418,7 @@ void aux_test_for_agressive(int num)
    printf("\033[1A");
    printf("\r");
 }
+
 void test_agressive()
 {
    halt(); //ignore

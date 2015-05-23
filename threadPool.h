@@ -1,7 +1,6 @@
 #ifndef __THREAD_POOL__
 #define __THREAD_POOL__
 #include <stdlib.h>
-#include <stdio.h>              //TODO - remove this include before submission
 #include <pthread.h>
 #include "osqueue.h"
 
@@ -28,8 +27,6 @@ typedef struct thread_pool
 	pthread_mutex_t destroyCondMutex;
 
 	int numOfThreads;
-	//int runningTasks;
-	//int threadsAlive;
 }ThreadPool;
 
 
