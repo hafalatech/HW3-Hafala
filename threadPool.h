@@ -28,8 +28,8 @@ typedef struct thread_pool
 	pthread_mutex_t destroyCondMutex;
 
 	int numOfThreads;
-	int runningTasks;
-	int threadsAlive;
+	//int runningTasks;
+	//int threadsAlive;
 }ThreadPool;
 
 

@@ -14,9 +14,9 @@ void* executer(void* arg) {
 				//printf("[THREAD %d] - WAKING UP DESTROY 1\n",myIndex);		
 		pthread_mutex_unlock(&(pool->mutexForExecuter));
 				pthread_cond_signal(&(pool->destroyCond)); //wakeup the destroy in case it was called
-		pthread_mutex_lock(&(pool->mutexForExecuter));
-				pool->threadsAlive--;
-		pthread_mutex_unlock(&(pool->mutexForExecuter));
+		//pthread_mutex_lock(&(pool->mutexForExecuter));
+				//pool->threadsAlive--;
+		//pthread_mutex_unlock(&(pool->mutexForExecuter));
 				//printf("[THREAD %d] - IM DEAD\n",myIndex);
 				return NULL;
 			}
@@ -35,15 +35,12 @@ void* executer(void* arg) {
 					//printf("[THREAD %d] - WAKING UP DESTROY 5\n",myIndex);	
 		pthread_mutex_unlock(&(pool->mutexForExecuter));	
 					pthread_cond_signal(&(pool->destroyCond)); //wakeup the destroy in case it was called
-		pthread_mutex_lock(&(pool->mutexForExecuter));
-					pool->threadsAlive--;
-		pthread_mutex_unlock(&(pool->mutexForExecuter));
+		// pthread_mutex_lock(&(pool->mutexForExecuter));
+		// 			pool->threadsAlive--;
+		// pthread_mutex_unlock(&(pool->mutexForExecuter));
 					//printf("[THREAD %d] - IM DEAD\n",myIndex);
 					return NULL;
 				}
-
-
-
 
 			}	
 
@@ -51,7 +48,7 @@ void* executer(void* arg) {
 			{
 				//printf("[THREAD %d] - TAKING TASK FROM QUEUE\n",myIndex);
 				TaskNode* node = osDequeue(pool->tasks_queue);
-				pool->runningTasks++;
+				//pool->runningTasks++;
 		pthread_mutex_unlock(&(pool->mutexForExecuter));
 
 				(*node->routine)(node->param);
@@ -59,7 +56,7 @@ void* executer(void* arg) {
 				//printf("[THREAD %d] - FINISHED TASK\n",myIndex);
 		pthread_mutex_lock(&(pool->mutexForExecuter));
 					//printf("[THREAD %d] - DEC runningTasks--\n",myIndex);
-					pool->runningTasks--;
+					//pool->runningTasks--;
 		pthread_mutex_unlock(&(pool->mutexForExecuter));
 				if (pool->has_destroyed!=0){
 					//printf("[THREAD %d] - WAKING UP DESTROY 3\n",myIndex);
@@ -70,9 +67,9 @@ void* executer(void* arg) {
 		pthread_mutex_unlock(&(pool->mutexForExecuter));
 	}
 
-	pthread_mutex_lock(&(pool->mutexForExecuter));
-		pool->threadsAlive--;
-	pthread_mutex_unlock(&(pool->mutexForExecuter));
+	// pthread_mutex_lock(&(pool->mutexForExecuter));
+	// 	pool->threadsAlive--;
+	// pthread_mutex_unlock(&(pool->mutexForExecuter));
 	//printf("[THREAD %d] - WAKING UP DESTROY 4\n",myIndex);
 	pthread_cond_signal(&(pool->destroyCond)); //wakeup the destroy in case it was called
 	//printf("[THREAD %d] - IM DEAD\n",myIndex);	
@@ -86,7 +83,7 @@ ThreadPool* tpCreate(int numOfThreads) {
 	new_pool->threads =  (pthread_t*)malloc(numOfThreads * sizeof(pthread_t));
 	new_pool->has_destroyed = 0;
 	new_pool->shouldWaitForTasks = 0;
-	new_pool->threadsAlive = 0;
+	//new_pool->threadsAlive = 0;
 
 	pthread_mutex_init(&(new_pool->mutexForExecuter) , NULL);
 	pthread_cond_init(&(new_pool->executerCond), NULL);
@@ -96,11 +93,11 @@ ThreadPool* tpCreate(int numOfThreads) {
 	pthread_mutex_init(&(new_pool->executerCondMutex) , NULL);
 
 	new_pool->numOfThreads = numOfThreads;
-	new_pool->runningTasks = 0;
+	//new_pool->runningTasks = 0;
 	int i;
 	for(i = 0 ; i < numOfThreads ; i++){
 		pthread_create(new_pool->threads + i, NULL, executer, new_pool);
-		new_pool->threadsAlive++;		
+		//new_pool->threadsAlive++;		
 	}
 
 	return new_pool;
