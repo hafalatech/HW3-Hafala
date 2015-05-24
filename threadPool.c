@@ -116,7 +116,7 @@ int tpInsertTask(ThreadPool* threadPool, void (*computeFunc) (void *), void* par
 		return res;
 	}
 	res = 0;
-	if(threadPool->has_destroyed==1 && threadPool->shouldWaitForTasks == 0) 
+	if(threadPool->has_destroyed != 0 && threadPool->shouldWaitForTasks == 0) 
 	{
 		return res;
 	}
