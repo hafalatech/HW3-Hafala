@@ -116,6 +116,10 @@ int tpInsertTask(ThreadPool* threadPool, void (*computeFunc) (void *), void* par
 		return res;
 	}
 	res = 0;
+	if(threadPool->has_destroyed==1 && threadPool->shouldWaitForTasks == 0) 
+	{
+		return res;
+	}
 	TaskNode* newTask = (TaskNode*)malloc(sizeof(TaskNode));
 	newTask->param = param;
 	newTask->routine = computeFunc;
