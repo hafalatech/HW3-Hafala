@@ -271,6 +271,49 @@ void test_agressive()
 }
 
 
+void aux_test_thread_pool_inside_thread_pool()
+{   
+   ThreadPool* tp = tpCreate(3);
+   int i;
+   for(i=0; i<5; ++i)
+   {
+      tpInsertTask(tp,simpleTask,NULL);
+   }
+   tpDestroy(tp,1);
+}
+void test_thread_pools_inside_thread_pool_1() 
+{
+   //more threads then tasks
+   int i;
+   
+   ThreadPool* tp = tpCreate(8);
+   for(i=0; i<3; ++i)
+   {
+      tpInsertTask(tp,aux_test_thread_pool_inside_thread_pool,NULL);
+   }
+   
+   tpDestroy(tp,1);
+   printOK();
+   printf(" \n");  
+}
+void test_thread_pools_inside_thread_pool_2() 
+{
+   //more tasks then threads
+   int i;
+   
+   ThreadPool* tp = tpCreate(3);
+   for(i=0; i<8; ++i)
+   {
+      tpInsertTask(tp,aux_test_thread_pool_inside_thread_pool,NULL);
+   }
+   
+   tpDestroy(tp,1);
+   printOK();
+   printf(" \n");  
+}
+
+
+
 int main()
 {
    printStart();
@@ -307,6 +350,14 @@ int main()
 
    printf("test_destroy_should_not_wait_for_tasks...\n");
    test_destroy_should_not_wait_for_tasks();
+
+
+   printf("test_thread_pools_inside_thread_pool #1 (more threads then tasks)...\n");
+   test_thread_pools_inside_thread_pool_1();
+
+
+   printf("test_thread_pools_inside_thread_pool #2 (more tasks then threads)...\n");
+   test_thread_pools_inside_thread_pool_2();
 
 
    printEnd();

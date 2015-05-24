@@ -462,6 +462,96 @@ void test_insert_task_after_destroy_2()
    printf(" \n");
 }
 
+void aux_test_thread_pool_inside_thread_pool(void *a)
+{  
+   halt();
+   printf("\033[15A%s\n",((AwesomeContainer*)(a))->awesomeString); 
+   ThreadPool* tp = tpCreate(3);
+   int i;
+   for(i=0; i<5; ++i)
+   {
+      tpInsertTask(tp,doMediumTask,NULL);
+   }
+   tpInsertTask(tp,doLongTask,(AwesomeContainer*)(a));
+   tpDestroy(tp,1);
+}
+void test_thread_pool_inside_thread_pool_1() 
+{
+   //more threads then tasks
+   printf("were gonna make a tree of thread pools! oh yeah\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+   halt();//ignore
+
+   char* tree1 = "                            A\n                           d$b\n                         .d\\$$b.\n                       .d$i$$\\$$b.\n                          d$$@b\n                         d\\$$$ib\n                       .d$$$\\$$$b\n                     .d$$@$$$$\\$$ib.\n                         d$$i$$b\n                        d\\$$$$@$b\n                     .d$@$$\\$$$$$@b.\n                   .d$$$$i$$$\\$$$$$$b.\n                           ###\n                           ###\n                           ###";
+   char* tree2 = "                            A\n                           d$b\n                         .d\\$$b.\n                       .d$i$$\\$$b.\n                          d$$@b\n                         d\\$$$ib\n      |                .d$$$\\$$$b\n    \\|/|/            .d$$@$$$$\\$$ib.\n  \\|\\\\|//|/              d$$i$$b\n   \\|\\|/|/              d\\$$$$@$b\n    \\\\|//            .d$@$$\\$$$$$@b.\n     \\|/           .d$$$$i$$$\\$$$$$$b.\n     \\|/                   ###\n      |                    ###\n_\\|/__|_\\|/____\\|/_        ###";
+   char* tree3 = "                            A\n                           d$b\n                         .d\\$$b.\n                       .d$i$$\\$$b.\n                          d$$@b\n                         d\\$$$ib\n      |                .d$$$\\$$$b               |\n    \\|/|/            .d$$@$$$$\\$$ib.          \\|/|/\n  \\|\\\\|//|/              d$$i$$b            \\|\\\\|//|/\n   \\|\\|/|/              d\\$$$$@$b            \\|\\|/|/\n    \\\\|//            .d$@$$\\$$$$$@b.          \\\\|//\n     \\|/           .d$$$$i$$$\\$$$$$$b.         \\|/\n     \\|/                   ###                 \\|/\n      |                    ###                  |\n_\\|/__|_\\|/____\\|/_        ###            _\\|/__|_\\|/____\\|/_";
+
+   ThreadPool* tp = tpCreate(8);
+   AwesomeContainer con1;
+   con1.awesomeNum = 0;
+   con1.awesomeString = tree1; // we use only the awesomeNum
+   tpInsertTask(tp,aux_test_thread_pool_inside_thread_pool,&con1);
+
+
+   AwesomeContainer con2;
+   con2.awesomeNum = 0;
+   con2.awesomeString = tree2; // we use only the awesomeNum
+   tpInsertTask(tp,aux_test_thread_pool_inside_thread_pool,&con2);
+
+
+   AwesomeContainer con3;
+   con3.awesomeNum = 0;
+   con3.awesomeString = tree3; // we use only the awesomeNum
+   tpInsertTask(tp,aux_test_thread_pool_inside_thread_pool,&con3);
+
+   
+   tpDestroy(tp,1);
+   assert(con1.awesomeNum==1);
+   assert(con2.awesomeNum==1);
+   assert(con3.awesomeNum==1);
+   printOK();
+   printf(" \n");  
+}
+void test_thread_pool_inside_thread_pool_2() 
+{
+   printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+   halt(); //ignore
+
+   char* tree1 = "                            A\n                           d$b\n                         .d\\$$b.\n                       .d$i$$\\$$b.\n                          d$$@b\n                         d\\$$$ib\n                       .d$$$\\$$$b\n                     .d$$@$$$$\\$$ib.\n                         d$$i$$b\n                        d\\$$$$@$b\n                     .d$@$$\\$$$$$@b.\n                   .d$$$$i$$$\\$$$$$$b.\n                           ###\n                           ###\n                           ###";
+   char* tree2 = "                            A\n                           d$b\n                         .d\\$$b.\n                       .d$i$$\\$$b.\n                          d$$@b\n                         d\\$$$ib\n      |                .d$$$\\$$$b\n    \\|/|/            .d$$@$$$$\\$$ib.\n  \\|\\\\|//|/              d$$i$$b\n   \\|\\|/|/              d\\$$$$@$b\n    \\\\|//            .d$@$$\\$$$$$@b.\n     \\|/           .d$$$$i$$$\\$$$$$$b.\n     \\|/                   ###\n      |                    ###\n_\\|/__|_\\|/____\\|/_        ###";
+   char* tree3 = "                            A\n                           d$b\n                         .d\\$$b.\n                       .d$i$$\\$$b.\n                          d$$@b\n                         d\\$$$ib\n      |                .d$$$\\$$$b               |\n    \\|/|/            .d$$@$$$$\\$$ib.          \\|/|/\n  \\|\\\\|//|/              d$$i$$b            \\|\\\\|//|/\n   \\|\\|/|/              d\\$$$$@$b            \\|\\|/|/\n    \\\\|//            .d$@$$\\$$$$$@b.          \\\\|//\n     \\|/           .d$$$$i$$$\\$$$$$$b.         \\|/\n     \\|/                   ###                 \\|/\n      |                    ###                  |\n_\\|/__|_\\|/____\\|/_        ###            _\\|/__|_\\|/____\\|/_";
+
+   ThreadPool* tp = tpCreate(3);
+
+   AwesomeContainer con1;
+   con1.awesomeNum = 0;
+   con1.awesomeString = tree1; // we use only the awesomeNum
+   tpInsertTask(tp,aux_test_thread_pool_inside_thread_pool,&con1);
+
+
+   AwesomeContainer con2;
+   con2.awesomeNum = 0;
+   con2.awesomeString = tree2; // we use only the awesomeNum
+   tpInsertTask(tp,aux_test_thread_pool_inside_thread_pool,&con2);
+
+
+   AwesomeContainer con3;
+   con3.awesomeNum = 0;
+   con3.awesomeString = tree3; // we use only the awesomeNum
+   tpInsertTask(tp,aux_test_thread_pool_inside_thread_pool,&con3);
+   tpInsertTask(tp,aux_test_thread_pool_inside_thread_pool,&con3);
+   tpInsertTask(tp,aux_test_thread_pool_inside_thread_pool,&con3);
+   tpInsertTask(tp,aux_test_thread_pool_inside_thread_pool,&con3);
+   tpInsertTask(tp,aux_test_thread_pool_inside_thread_pool,&con3);
+   
+   tpDestroy(tp,1);
+   assert(con1.awesomeNum==1);
+   assert(con2.awesomeNum==1);
+   assert(con3.awesomeNum==1);
+   printOK();
+   printf(" \n");  
+}
+
+
 int main()
 {
    printStart();
@@ -510,6 +600,14 @@ int main()
 
    printf("test_insert_task_after_destroy #2...\n");
    test_insert_task_after_destroy_2();
+
+
+   printf("test_thread_pool_inside_thread_pool #1 (more threads then tasks)...\n");
+   test_thread_pool_inside_thread_pool_1();
+
+
+   printf("test_thread_pool_inside_thread_pool #2 (more tasks then threads)...\n");
+   test_thread_pool_inside_thread_pool_2();
 
 
    printEnd();
