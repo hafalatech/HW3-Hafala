@@ -8,18 +8,21 @@ void* executer(void* arg) {
 			if((pool->has_destroyed != 0 && pool->shouldWaitForTasks == 0) || (pool->has_destroyed != 0 && osIsQueueEmpty(pool->tasks_queue)))
 			{		
 				pthread_mutex_unlock(&(pool->mutexForExecuter));
-				pthread_cond_signal(&(pool->destroyCond));	//wakeup the destroy in case it was called
+				pthread_cond_signal(&(pool->destroyCond));
 				return NULL;
 			}
 			pthread_mutex_lock(&(pool->executerCondMutex));
 			while(osIsQueueEmpty(pool->tasks_queue)) {
-				pthread_cond_signal(&(pool->destroyCond));	//wakeup the destroy in case it was called
+				if (pool->has_destroyed == 1)
+				{
+					pthread_cond_signal(&(pool->destroyCond));
+				}
 				pthread_cond_wait(&(pool->executerCond), &(pool->executerCondMutex));
 				if((pool->has_destroyed != 0 && pool->shouldWaitForTasks == 0) || (pool->has_destroyed != 0 && osIsQueueEmpty(pool->tasks_queue)))
 				{		
 					pthread_mutex_unlock(&(pool->mutexForExecuter));
 					pthread_mutex_unlock(&(pool->executerCondMutex));		
-					pthread_cond_signal(&(pool->destroyCond));	//wakeup the destroy in case it was called
+					pthread_cond_signal(&(pool->destroyCond));
 					return NULL;
 				}
 			}
