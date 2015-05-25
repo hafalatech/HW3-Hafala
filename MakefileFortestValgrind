@@ -8,7 +8,7 @@ all:	osqueue.c threadPool.c threadPool.h
 
 	valgrind --leak-check=full --show-reachable=yes -v ./a.out
 	
-	valgrind --tool=helgrind ./tesא
+	valgrind --tool=helgrind ./a.out
 clean:
 
 	rm threadPool.o osqueue.o libthreadPool.a
