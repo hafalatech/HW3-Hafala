@@ -238,6 +238,7 @@ void aux_test_for_agressive(int num)
       tpInsertTask(tp,simpleTask,NULL);
    } 
    tpDestroy(tp,1);
+
    int precent = num*5;
    char bar[43];
    int j;

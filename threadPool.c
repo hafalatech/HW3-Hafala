@@ -7,7 +7,7 @@ void* executer(void* arg) {
 		pthread_mutex_lock(&(pool->mutexForExecuter));
 			if((pool->has_destroyed != 0 && pool->shouldWaitForTasks == 0) || (pool->has_destroyed != 0 && osIsQueueEmpty(pool->tasks_queue)))
 			{		
-		pthread_mutex_unlock(&(pool->mutexForExecuter));
+				pthread_mutex_unlock(&(pool->mutexForExecuter));
 				pthread_cond_signal(&(pool->destroyCond));	//wakeup the destroy in case it was called
 				return NULL;
 			}
@@ -17,8 +17,8 @@ void* executer(void* arg) {
 				pthread_cond_wait(&(pool->executerCond), &(pool->executerCondMutex));
 				if((pool->has_destroyed != 0 && pool->shouldWaitForTasks == 0) || (pool->has_destroyed != 0 && osIsQueueEmpty(pool->tasks_queue)))
 				{		
-		pthread_mutex_unlock(&(pool->mutexForExecuter));
-			pthread_mutex_unlock(&(pool->executerCondMutex));		
+					pthread_mutex_unlock(&(pool->mutexForExecuter));
+					pthread_mutex_unlock(&(pool->executerCondMutex));		
 					pthread_cond_signal(&(pool->destroyCond));	//wakeup the destroy in case it was called
 					return NULL;
 				}
@@ -27,11 +27,11 @@ void* executer(void* arg) {
 			if(pool->has_destroyed == 0 || pool->shouldWaitForTasks != 0)
 			{
 				TaskNode* node = osDequeue(pool->tasks_queue);
-		pthread_mutex_unlock(&(pool->mutexForExecuter));
+				pthread_mutex_unlock(&(pool->mutexForExecuter));
 				(*node->routine)(node->param);
-		pthread_mutex_lock(&(pool->mutexForExecuter));
-					free(node);
-		pthread_mutex_unlock(&(pool->mutexForExecuter));
+				pthread_mutex_lock(&(pool->mutexForExecuter));
+				free(node);
+				pthread_mutex_unlock(&(pool->mutexForExecuter));
 				if (pool->has_destroyed!=0) {
 					pthread_cond_signal(&(pool->destroyCond));	//wakeup the destroy in case it was called
 				}			
@@ -65,14 +65,13 @@ ThreadPool* tpCreate(int numOfThreads) {
 	for(i = 0 ; i < numOfThreads ; i++) {
 		pthread_create(new_pool->threads + i, NULL, executer, new_pool);
 	}
-	
 	return new_pool;
 }
 
 
 void tpDestroy(ThreadPool* threadPool, int shouldWaitForTasks) {
 	if (threadPool->has_destroyed==1) {
-		return;	// this is in case other thread is trying to make destroy (piazza)
+		return;
 	}
 	threadPool->has_destroyed = 1;
 	threadPool->shouldWaitForTasks = shouldWaitForTasks;
@@ -80,15 +79,15 @@ void tpDestroy(ThreadPool* threadPool, int shouldWaitForTasks) {
 	if (shouldWaitForTasks != 0) {
 		pthread_mutex_lock(&(threadPool->destroyCondMutex));
 		while(!osIsQueueEmpty(threadPool->tasks_queue)) {
-			pthread_cond_broadcast(&(threadPool->executerCond));	// wake up threads so they can wake me up later
-			pthread_cond_wait(&threadPool->destroyCond, &threadPool->destroyCondMutex);	//go to sleep
+			pthread_cond_broadcast(&(threadPool->executerCond));
+			pthread_cond_wait(&threadPool->destroyCond, &threadPool->destroyCondMutex);
 		}
 		pthread_mutex_unlock(&(threadPool->destroyCondMutex));
 	}
 
-	threadPool->shouldWaitForTasks = 0;	//make sure the threads will not take anymore tasks
+	threadPool->shouldWaitForTasks = 0;
 	
-	pthread_cond_broadcast(&(threadPool->executerCond));	// wake up threads so they can wake me up later
+	pthread_cond_broadcast(&(threadPool->executerCond));
 
 	//free tasks
 	while(!osIsQueueEmpty(threadPool->tasks_queue)) {
