@@ -19,9 +19,9 @@ void* executer(void* arg) {
 				}
 				pthread_cond_wait(&(pool->executerCond), &(pool->executerCondMutex));
 				if((pool->has_destroyed != 0 && pool->shouldWaitForTasks == 0) || (pool->has_destroyed != 0 && osIsQueueEmpty(pool->tasks_queue)))
-				{		
-					pthread_mutex_unlock(&(pool->mutexForExecuter));
-					pthread_mutex_unlock(&(pool->executerCondMutex));		
+				{	
+					pthread_mutex_unlock(&(pool->executerCondMutex));	
+					pthread_mutex_unlock(&(pool->mutexForExecuter));		
 					pthread_cond_signal(&(pool->destroyCond));
 					return NULL;
 				}
